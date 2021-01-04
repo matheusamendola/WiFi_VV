@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt_br">
+  <head>
+      <meta charset="utf-8">
+      <title>Mapa Pontos Wi-Fi VV</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel = "stylesheet" href = "./leafletjs/leaflet.css"/>
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+      <script src = "./leafletjs/leaflet.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+
+      <!-- CSS -->
+      <style type="text/css">
+        body {
+        padding: 5px;
+        margin: 5px;
+        }
+        #map {
+        height: 500px;
+        width: 100%;
+        }
+      </style>
+  </head>
+
+  <body>
+    <!-- Logo -->
+    <div class="card">
+      <section class="hero is-small is-info is-bold " >
+          <div class="hero-body">
+              <h1 class="title">
+                  <a href="https://www.vilavelha.es.gov.br/">
+                    <img src="./img/logo.png" alt="logo PMVV" width="200" height="200">
+                  </a>
+              </h1>
+          </div>
+      </section>
+    </div>
+    &nbsp;
+
+    <!-- Painel Mapa -->
+    <div class="tile is-ancestor">
+      <div class="tile is-vertical is-8">
+        <div class="tile">
+          <div class="tile is-parent">
+            <article class="tile is-child notification is-danger">
+              <p class="title">Mapa Pontos Wi-Fi</p>
+              <p class="subtitle">Verifique onde fica o ponto mais perto de você.</p>
+              <div class="content">
+                  <div class="card">
+                      <div id="map"></div>
+                  </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <!-- Painel Lateral Informações -->
+      <div class="tile is-parent">
+        <article class="tile is-child notification is-success">
+          <div class="content">
+            <p class="title">Saiba como acessar:</p>
+            <p class="subtitle">O acesso é bem simples. Procure a rede no seu dispositivo móvel, pode ser celular ou tablet. Ela é aberta. Peça conexão e cadastre-se por meio das redes sociais, mas também pode ser feito por meio do e-mail, validando o acesso</p>
+            <div class="content">
+              <p class="title">Encontrou algum problema?</p> <button class="button is-info">Entre em contato</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="card">
+      <footer class="footer">
+        <div class="content  has-text-centered">
+          <p>Vendo paçoca por R$2,00 + brinde embalagem</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Código Mapas -->
+    <script type="text/javascript">
+
+      //Seta o ícone personalizado
+      var wifiIcon = L.AwesomeMarkers.icon({
+          prefix: 'fa', 
+          markerColor: 'blue', 
+          icon: 'wifi' //http://fortawesome.github.io/Font-Awesome/icons/
+      });
+      var mapOptions = {
+          center: [-20.346953485866717, -40.29713629794165],
+          zoom: 13
+      }
+      // Criando as informações do Mapa
+      var map = new L.map('map', mapOptions);
+                  
+      // Layer do estilo do mapa
+      var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                
+      // Adicionando layer no mapa
+      map.addLayer(layer);
+                        
+      // Lendo JSON
+      var promise = $.getJSON("wifi.json");
+      promise.then(function(data) {
+
+        var wifi = L.geoJson(data, {
+          filter: function(feature, layer) {
+            return feature.properties.BusType == "Wi-Fi";
+          },
+          pointToLayer: function(feature, latlng) {
+            return L.marker(latlng, {
+                icon: wifiIcon,
+                clickable: true
+            }).on('mouseover', function() {
+                this.bindPopup(feature.properties.Name + " - " + feature.properties.Description).openPopup();
+              });
+          }
+        });
+        //Adiciona Landmark Wi-Fi no Mapa
+        wifi.addTo(map)
+      });
+    </script>
+  </body>
+</html>

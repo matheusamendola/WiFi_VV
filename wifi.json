@@ -1,0 +1,45 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Praça da Garoto",
+                "BusType": "Wi-Fi",
+                "Description": "R. Mte. Gomes, 14, Glória, Vila Velha – ES, 29122-100"
+
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-40.29713629794165, -20.346953485866717]
+            }
+        }, {
+            "type": "Feature",
+            "properties": {
+                "Name": "Praça Engenheiro Siqueira",
+               "BusType": "Wi-Fi",
+                "Description": "R. Itapagipe, 901, Glória, Vila Velha – ES, 29122-190"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-40.308763, -20.335159]
+            }
+        }, {
+            "type": "Feature",
+            "properties": {
+                "Name": "Praça Duque de Caxias",
+               "BusType": "Wi-Fi",
+                "Description": "R. Sete de Setembro, Centro de Vila Velha, Vila Velha – ES, 29100-301"
+
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-40.293360, -20.336368]
+            }
+        }
+
+
+    ]
+
+}
